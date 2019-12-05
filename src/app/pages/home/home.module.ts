@@ -9,8 +9,9 @@ import { HomePage } from './home.page';
 
 const routes: Routes = [
   {
-    path: '',
-    component: HomePage
+    path: '', component: HomePage, children: [
+      { path: 'usuarios', loadChildren: () => import('./../users/users.module').then(m => m.UsersPageModule) },
+    ]
   }
 ];
 
@@ -23,4 +24,4 @@ const routes: Routes = [
   ],
   declarations: [HomePage]
 })
-export class HomePageModule {}
+export class HomePageModule { }

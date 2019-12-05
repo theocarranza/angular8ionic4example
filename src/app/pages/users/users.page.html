@@ -1,0 +1,75 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{formTitle}}</ion-title>
+    <ion-buttons slot="primary">
+      <ion-button (click)="back()">
+        <ion-icon name="arrow-back"></ion-icon>
+        Voltar
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <form [formGroup]="form" novalidate>
+
+    <input type="hidden" name="id" value="ID">
+    <div class="form-row">
+
+      <div class="form-group col-md-4">
+        <bhvmat-formfield class="wide">
+          <label>Nome Completo:</label>
+          <input formControlName="fullName" type="text" appErrorMessage>
+        </bhvmat-formfield>
+      </div>
+
+      <div class="form-group col-md-4">
+        <bhvmat-formfield class="wide">
+          <label>Escolha seu login:</label>
+          <input formControlName="login" type="text" appErrorMessage>
+        </bhvmat-formfield>
+      </div>
+
+      <div class="form-group col-md-4">
+        <bhvmat-formfield class="wide">
+          <label>Digite seu CPF:</label>
+          <input formControlName="cpf" type="text" appErrorMessage>
+        </bhvmat-formfield>
+      </div>
+
+      <div class="form-group col-md-4">
+        <bhvmat-formfield class="wide">
+          <label>E-mail:</label>
+          <input formControlName="email" type="text" appErrorMessage>
+        </bhvmat-formfield>
+      </div>
+
+    </div>
+
+    <div class="form-row" *ngIf="!id">
+      <div class="form-group col-md-6">
+        <bhvmat-formfield>
+          <label>Escolha uma senha</label>
+          <input appErrorMessage type="password" formControlName="password">
+        </bhvmat-formfield>
+      </div>
+      <div class="form-group col-md-6">
+        <bhvmat-formfield>
+          <label>Confirme a senha escolhida</label>
+          <input appErrorMessage formControlName="password_confirm" type="password">
+        </bhvmat-formfield>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <bhvmat-button *ngIf="!user" [disabled]="sending || !form.valid" text="Salvar Remoto" (click)="onSubmit(form)">
+      </bhvmat-button>
+      <bhvmat-button *ngIf="!user" [disabled]="sending || !form.valid" text="Salvar Local" (click)="addLocalUser(form)">
+      </bhvmat-button>
+      <bhvmat-button *ngIf="user" [disabled]="sending || !form.valid" text="Editar" (click)="update(form)">
+      </bhvmat-button>
+      <bhvmat-button text="Cancelar" (click)="back()"></bhvmat-button>
+    </div>
+  </form>
+
+</ion-content>

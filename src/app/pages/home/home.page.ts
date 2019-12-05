@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
 import { AuthService } from '../../services/auth.service';
+import { UsersService } from './../../services/users.service';
 import { User } from '../../models/user';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -9,17 +11,35 @@ import { User } from '../../models/user';
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
+  appPages = [
 
-    private user: User;
+    {
+      title: 'Usuários',
+      url: 'usuarios',
+      icon: 'contacts'
+    },
+    {
+      title: 'Sair',
+      url: '/auth',
+      icon: 'exit'
 
-	constructor(private authService: AuthService) { }
+    },
+  ];
 
-	ngOnInit() {
-		this.user = this.authService.currentUserValue;
-	}
+  public user: User;
+  public user$: Observable<User[]>;
 
-    logout() {
-    	this.authService.logout();
-    }    
+  constructor(private authService: AuthService, private readonly usersService: UsersService) { }
+
+  ngOnInit() {
+    this.user$ = this.usersService.users;
+    this.user = this.authService.currentUserValue;
+
+    console.table(this.user);
+  }
+
+  logout() {
+    this.authService.logout();
+  }
 
 }

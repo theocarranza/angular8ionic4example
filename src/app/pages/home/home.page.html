@@ -1,15 +1,41 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Home Page</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-split-pane>
+	<ion-menu menuId="first">
+		<ion-header>
+			<ion-toolbar color="primary">
+				<ion-title>Menu</ion-title>
+			</ion-toolbar>
+		</ion-header>
+		<ion-content>
+			<ion-list>
+				<ion-menu-toggle auto-hide="false" *ngFor="let p of appPages">
+					<ion-item [routerDirection]="'root'" [routerLink]="[p.url]">
+						<ion-icon slot="start" [name]="p.icon"></ion-icon>
+						<ion-label>
+							{{ p.title }}
+						</ion-label>
+					</ion-item>
+				</ion-menu-toggle>
+			</ion-list>
+		</ion-content>
+	</ion-menu>
+	<ion-router-outlet main>
+		<ion-card *ngIf="!user$ | async" style="margin-bottom: 200px;">
+			<ion-card-header>
+				<ion-card-subtitle>Bem vindo:</ion-card-subtitle>
+				<ion-card-title>Usuario(a)</ion-card-title>
+				<ion-card-content>
+					<p>
+						Este é um app escrito em Angular 8 e Ionic 4, usando alguns
+						recursos de programação assícrona como observáveis do RxJS.
+					</p>
+					<p>
+						Como não foi possível consumir a API, reescrevi o app com uma lista
+						de usuários "hard coded". Espero que gostem!
+					</p>
 
-<ion-content>
-	<ion-card *ngIf="user">
-		<ion-card-header>
-			<ion-card-subtitle>Welcome:</ion-card-subtitle>
-			<ion-card-title >{{user.firstName}} {{user.lastName}}</ion-card-title>
-		</ion-card-header>
-	</ion-card>	
-	<ion-button expand="block" size="large" type="reset" (click)="logout()">Logout</ion-button> 
-</ion-content>
+
+				</ion-card-content>
+			</ion-card-header>
+		</ion-card>
+	</ion-router-outlet>
+</ion-split-pane>

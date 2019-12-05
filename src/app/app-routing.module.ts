@@ -5,7 +5,10 @@ import { RoutingInterceptior } from '../app/interceptors/routing.interceptor';
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'auth', loadChildren: './pages/auth/auth.module#AuthPageModule' },
-  { path: 'home', loadChildren: './pages/home/home.module#HomePageModule', canActivate: [RoutingInterceptior] },
+  {
+    path: 'home', loadChildren: './pages/home/home.module#HomePageModule', canActivate: [RoutingInterceptior]
+  },
+  // { path: '**', reirectTo: 'auth' },
 ];
 
 @NgModule({

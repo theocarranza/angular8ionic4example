@@ -13,7 +13,7 @@ export class BasicAuthInterceptor implements HttpInterceptor {
         const currentUser = this.authService.currentUserValue;
         if (currentUser && currentUser.authdata) {
             request = request.clone({
-                setHeaders: { 
+                setHeaders: {
                     Authorization: `Basic ${currentUser.authdata}`
                 }
             });

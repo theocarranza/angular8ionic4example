@@ -12,19 +12,25 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { dummyBackendProvider } from '../app/interceptors/dummy.backend.interceptor';
 
+import { MaterialLibModule } from '@bhave/material-lib';
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule],
+  imports: [
+    BrowserModule,
+    IonicModule.forRoot(),
+    AppRoutingModule,
+    HttpClientModule,
+    MaterialLibModule
+  ],
   providers: [
     StatusBar,
     SplashScreen,
-
-    // Remove this line if you want to use the real BFF API
     dummyBackendProvider,
-    
+
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

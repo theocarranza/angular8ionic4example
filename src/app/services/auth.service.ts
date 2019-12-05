@@ -8,7 +8,7 @@ import { environment } from '../../environments/environment';
 import { User } from '../models/user';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class AuthService {
     private currentUserSubject: BehaviorSubject<User>;
@@ -23,19 +23,21 @@ export class AuthService {
         return this.currentUserSubject.value;
     }
 
-    public login(email: string, password: string) {
-        return this.http.post<any>(`${environment.bffUrl}/users/authenticate`, { email, password })
+    public login(login: string, password: string) {
+        return this.http.post<any>(`${environment.bffUrl}/Profile/Token`, { login, password })
             .pipe(map(user => {
-                user.authdata = window.btoa(email + ':' + password);
+                user.authdata = window.btoa(login + ':' + password);
                 localStorage.setItem('currentUser', JSON.stringify(user));
+
                 this.currentUserSubject.next(user);
                 return user;
             }));
     }
 
     public logout() {
-        localStorage.removeItem('currentUser');
-        this.currentUserSubject.next(null);
-		this.router.navigate(['/auth']);
+        // localStorage.removeItem('currentUser');
+        // localStorage.removeItem('USERS');
+        // this.currentUserSubject.next(null);
+        this.router.navigate(['/auth']);
     }
 }

@@ -1,0 +1,11 @@
+<bhvmat-list [emptyRef]="ref" stickyButtonIconName="plus" [hasStickyButton]="true"
+  stickyButtonText="Clique para adicionar um novo usuário" (stickyButtonClick)="add()">
+
+  <bhvmat-list-item *ngFor="let user of (users$ | async); trackBy: trackByFunction;" title="{{ user.fullName }}"
+    (action)="update(user.id)">
+    <bhvmat-icon-button iconName="trash" (click)="delete(user.id)"></bhvmat-icon-button>
+
+  </bhvmat-list-item>
+</bhvmat-list>
+
+<bhvmat-empty #ref iconName="void" iconSize="xxlarge" text="Nenhum registro para exibir"></bhvmat-empty>

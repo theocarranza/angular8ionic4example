@@ -5,7 +5,7 @@ import { delay, mergeMap, materialize, dematerialize } from 'rxjs/operators';
 
 import { User } from '../models/user';
 
-const users: User[] = [{ id: 1, email: 'dragan.gaic@gmail.com', password: 'passw0rd', firstName: 'Dragan', lastName: 'Gaic' }];
+const users: User[] = [{ id: 1, email: 'dragan.gaic@gmail.com', password: 'password', fullName: 'Isaaac Foo' }];
 
 @Injectable()
 export class DummyBackendInterceptor implements HttpInterceptor {
@@ -26,28 +26,27 @@ export class DummyBackendInterceptor implements HttpInterceptor {
                     return getUsers();
                 default:
                     return next.handle(request);
-            }    
+            }
         }
 
         function authenticate() {
             const { email, password } = body;
-            const user = users.find(x => x.email === email && x.password === password);
-            if (!user) return error('Email or password is incorrect');
+            const user = users.find(user => user.email === email && user.password === password);
+            if (!user) { return error('Email or password is incorrect'); }
             return ok({
                 id: user.id,
                 email: user.email,
-                firstName: user.firstName,
-                lastName: user.lastName
-            })
+                fullname: user.fullName
+            });
         }
 
         function getUsers() {
-            if (!isLoggedIn()) return unauthorized();
+            if (!isLoggedIn()) { return unauthorized(); }
             return ok(users);
         }
 
         function ok(body?) {
-            return of(new HttpResponse({ status: 200, body }))
+            return of(new HttpResponse({ status: 200, body }));
         }
 
         function error(message) {
@@ -59,7 +58,15 @@ export class DummyBackendInterceptor implements HttpInterceptor {
         }
 
         function isLoggedIn() {
-            return headers.get('Authorization') === `Basic ${window.btoa('test:test')}`;
+            const USER = JSON.parse(localStorage.getItem('currentUser'));
+            request = request.clone({
+                setHeaders: {
+                    Authorization: `Bearer ${this.USER.data.access_token}`
+                }
+            });
+
+            return next.handle(request);
+            // return headers.get('Authorization') === `Basic ${window.btoa('test:test')}`;
         }
     }
 }
